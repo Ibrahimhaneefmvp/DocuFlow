@@ -10,7 +10,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
   <style>
-    /* Print styles from your code */
     @media print {
       @page { margin: 2cm; size: auto; }
       nav, .sidebar, .toolbar, .mobile-tabs, .print-hide, .stats-footer { display: none !important; }
@@ -18,7 +17,6 @@
       .document-page { box-shadow: none !important; border: none !important; padding: 0 !important; margin: 0 !important; width: 100% !important; max-width: 100% !important; min-height: 0 !important; }
       .page-break-before { page-break-before: always; }
     }
-    /* Hide Tailwind scrollbar */
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
@@ -28,9 +26,7 @@
   <script type="text/babel">
     const { useState, useRef, useEffect } = React;
 
-    // Your DocuFlow component (paste everything from 'const DocuFlow = () => {' to the closing '};' here)
     const DocuFlow = () => {
-      // --- State ---
       const [mode, setMode] = useState('instant');
       const [inputText, setInputText] = useState("");
       const [formattedHtml, setFormattedHtml] = useState("");
@@ -40,13 +36,9 @@
       const [isProcessing, setIsProcessing] = useState(false);
       const [notification, setNotification] = useState(null);
       const [activeTab, setActiveTab] = useState('editor');
-      
-      // New State for Academic Features
-      const [theme, setTheme] = useState('academic'); // Default to academic for this USP
+      const [theme, setTheme] = useState('academic');
       const [lastSaved, setLastSaved] = useState(null);
       const [stats, setStats] = useState({ words: 0, time: 0 });
-      
-      // Cover Page State
       const [coverData, setCoverData] = useState({
         uni: "University Name",
         course: "Course Title 101",
@@ -55,11 +47,9 @@
         date: new Date().toLocaleDateString()
       });
 
-      // --- Refs ---
       const previewRef = useRef(null);
       const titleRef = useRef(null);
 
-      // --- Theme Config ---
       const themeStyles = {
         modern: {
           container: "font-sans text-slate-800",
@@ -81,7 +71,6 @@
         }
       };
 
-      // --- Auto-Save & Stats Logic ---
       useEffect(() => {
         const savedData = localStorage.getItem('docuflow_data');
         if (savedData) {
@@ -96,17 +85,14 @@
         if (inputText) {
           localStorage.setItem('docuflow_data', JSON.stringify({ inputText, theme, apiKey }));
           setLastSaved(new Date());
-          
-          // Calculate Stats
           const words = inputText.trim().split(/\s+/).length;
           setStats({
             words: words,
-            time: Math.ceil(words / 200) // Avg reading speed
+            time: Math.ceil(words / 200)
           });
         }
       }, [inputText, theme, apiKey]);
 
-      // --- Formatting Logic ---
       const processText = (text) => {
         if (!text) return "";
         const s = themeStyles[theme];
@@ -115,37 +101,23 @@
           .replace(/&/g, "&amp;")
           .replace(/</g, "&lt;")
           .replace(/>/g, "&gt;")
-          
-          // Math Highlighting (USP #2) - Simple regex for visual distinction
           .replace(/(\$\$[\s\S]*?\$\$)/gm, '<div class="math-block bg-slate-50 border border-slate-200 p-4 text-center font-mono my-4 rounded text-slate-800 overflow-x-auto">$1</div>')
           .replace(/(\$[^$]*\$)/gm, '<span class="math-inline bg-slate-100 px-1 rounded font-mono text-sm border border-slate-200 text-slate-700">$1</span>')
-
-          // Headers
-          .replace(/^\s*\*\*(.*?)\*\*\s*$/gm, '### $1') 
+          .replace(/^\s*\*\*(.*?)\*\*\s*$/gm, '### $1')
           .replace(/^#\s+(.*$)/gim, `<h1 class="text-3xl font-bold mt-8 mb-6 pb-2 border-b-2 ${s.h1}">$1</h1>`)
           .replace(/^##\s+(.*$)/gim, '<h2 class="text-2xl font-bold mt-8 mb-4 opacity-90">$1</h2>')
           .replace(/^###\s+(.*$)/gim, `<h3 class="text-xl font-bold mt-6 mb-3 ${s.accent}">$1</h3>`)
-          
-          // Emphasis
           .replace(/\*\*\*(.*?)\*\*\*/gim, '<strong class="font-bold bg-yellow-100/50 px-1 rounded"><em>$1</em></strong>')
           .replace(/\*\*(.*?)\*\*/gim, '<strong class="font-bold">$1</strong>')
           .replace(/__(.*?)__/gim, '<strong class="font-bold">$1</strong>')
           .replace(/\*(.*?)\*/gim, '<em class="opacity-80">$1</em>')
-          
-          // Code & Quotes
           .replace(/```([\s\S]*?)```/gim, '<pre class="bg-slate-900 text-slate-50 p-4 rounded-lg my-6 font-mono text-sm overflow-x-auto shadow-inner">$1</pre>')
           .replace(/`(.*?)`/gim, '<code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-pink-600 border border-slate-200">$1</code>')
           .replace(/^>\s?(.*$)/gim, `<blockquote class="border-l-4 border-current pl-4 py-2 my-6 italic opacity-70 bg-opacity-5 bg-slate-500 rounded-r-lg">$1</blockquote>`)
-          
-          // Links (Prepared for bibliography extraction)
           .replace(/\[(.*?)\]\((.*?)\)/gim, `<a href="$2" target="_blank" class="citation-link font-medium underline underline-offset-2 ${s.accent}">$1</a>`)
-          
-          // Lists & Tables
           .replace(/((?:^\|[^\n]*\|\r?\n)+)/gm, (match) => formatTable(match))
           .replace(/^\s*[-*]\s+(.*$)/gim, '<li class="ml-6 list-disc pl-1 mb-2 marker:opacity-50">$1</li>')
           .replace(/^\s*(\d+)\.\s+(.*$)/gim, '<li class="ml-6 list-decimal pl-1 mb-2 font-medium marker:opacity-80">$2</li>')
-          
-          // Paragraphs
           .split('\n\n').map(p => {
             const trimmed = p.trim();
             if (trimmed.startsWith('<h') || trimmed.startsWith('<pre') || trimmed.startsWith('<blockquote') || trimmed.startsWith('<li') || trimmed.startsWith('<div class="math-block') || trimmed.startsWith('<div class="overflow-x-auto')) {
@@ -161,7 +133,6 @@
       };
 
       const formatTable = (tableBlock) => {
-        // ... (Existing table logic)
         const lines = tableBlock.trim().split('\n');
         if (lines.length < 2) return tableBlock;
         const headerLine = lines[0];
@@ -194,8 +165,6 @@
       useEffect(() => {
         if (inputText) setFormattedHtml(processText(inputText));
       }, [inputText, theme]);
-
-      // --- USP Logic: Academic Features ---
 
       const insertCoverPage = () => {
         const coverHtml = `
@@ -230,7 +199,6 @@
         links.forEach((link, index) => {
           const url = link.href;
           const text = link.innerText;
-          // Simple format approximation
           bibHtml += `<li class="pl-8 -indent-8 text-slate-700">
             [${index + 1}] ${text}. Available at: <span class="italic underline text-blue-600">${url}</span> (Accessed: ${new Date().toLocaleDateString()}).
           </li>`;
@@ -240,8 +208,6 @@
         previewRef.current.innerHTML += bibHtml;
         showNotification("Bibliography Generated!", "success");
       };
-
-      // --- Actions ---
 
       const execCmd = (command, value = null) => {
         document.execCommand(command, false, value);
@@ -264,7 +230,6 @@
           extension = 'html';
           fileContent = `<!DOCTYPE html><html><head><title>${title}</title><meta charset="utf-8"></head><body style="max-width:800px;margin:0 auto;font-family:serif;line-height:1.6">${content}</body></html>`;
         } else if (format === 'doc') {
-          // USP #6: Word Export Trick
           mimeType = 'application/msword';
           extension = 'doc';
           fileContent = `
@@ -325,18 +290,16 @@
         setTimeout(() => setNotification(null), 3000);
       };
 
-      // --- Components ---
       const EditorButton = ({ icon: Icon, title, onClick }) => (
         <button onClick={onClick} title={title} className="p-1.5 rounded transition-colors text-slate-600 hover:bg-slate-100 shrink-0" type="button"><Icon size={18} /></button>
       );
 
       return (
         <div className="flex flex-col h-screen bg-slate-50 font-sans text-slate-900">
-          {/* Top Bar */}
           <nav className="h-14 bg-white border-b border-slate-200 flex items-center justify-between px-4 z-20 shadow-sm shrink-0">
             <div className="flex items-center gap-3">
               <div className={`p-1.5 rounded-lg shadow-sm transition-colors ${mode === 'magic' ? 'bg-indigo-600' : 'bg-slate-800'}`}>
-                {mode === 'magic' ? <Sparkles className="text-white" size={20} /> : <FileText className="text-white" size={20} />}
+                {mode === 'magic' ? React.createElement(Sparkles, { className: "text-white", size: 20 }) : React.createElement(FileText, { className: "text-white", size: 20 })}
               </div>
               <span className="font-bold text-lg tracking-tight text-slate-800 hidden sm:inline">DocuFlow <span className={`font-light ${mode === 'magic' ? 'text-indigo-600' : 'text-slate-500'}`}>Studio</span></span>
               <div className="flex items-center ml-6 bg-slate-100 rounded-lg p-0.5 border border-slate-200 print-hide">
@@ -351,7 +314,6 @@
             </div>
           </nav>
 
-          {/* Main Content */}
           <div className="flex-1 flex overflow-hidden main-content">
             <div className={`sidebar w-full md:w-1/3 border-r border-slate-200 flex flex-col bg-slate-50 ${activeTab === 'editor' ? 'block' : 'hidden md:flex'}`}>
               <div className="p-3 border-b border-slate-200 bg-white grid grid-cols-2 gap-1">
@@ -378,13 +340,11 @@
                    <EditorButton icon={Heading2} title="H2" onClick={() => execCmd('formatBlock', 'H2')} />
                    <EditorButton icon={List} title="Bullet List" onClick={() => execCmd('insertUnorderedList')} />
                    <div className="w-px h-4 bg-slate-200 mx-2 hidden sm:block"></div>
-                   {/* USP: Academic Toolbar */}
                    <EditorButton icon={GraduationCap} title="Add Cover Page" onClick={() => setShowCoverModal(true)} />
                    <EditorButton icon={BookOpen} title="Auto-Generate Bibliography" onClick={generateBibliography} />
                 </div>
                 <div className="flex items-center gap-2 pl-2 shrink-0">
                    <button onClick={handlePrint} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-md transition-colors"><Printer size={14} /> PDF</button>
-                   {/* USP: Doc Export */}
                    <button onClick={() => handleDownload('doc')} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-md transition-colors"><FileDown size={14} /> .Doc</button>
                    <button onClick={handleCopyRichText} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-slate-900 hover:bg-slate-800 rounded-md transition-colors shadow-sm"><Copy size={14} /></button>
                 </div>
@@ -395,7 +355,6 @@
                   <div ref={titleRef} contentEditable suppressContentEditableWarning={true} className="text-4xl font-extrabold mb-8 pb-4 border-b border-slate-100 outline-none empty:before:content-['Untitled_Doc'] empty:before:text-slate-300 hover:border-slate-300 transition-colors">New Document</div>
                   {inputText ? <div ref={previewRef} contentEditable suppressContentEditableWarning className="outline-none text-lg leading-relaxed min-h-[500px]" dangerouslySetInnerHTML={{ __html: formattedHtml }} /> : <div ref={previewRef} contentEditable suppressContentEditableWarning className="outline-none text-lg leading-relaxed min-h-[500px] empty:before:content-['Type_here...'] empty:before:text-slate-300" />}
                 </div>
-                {/* USP: Stats Footer */}
                 <div className="stats-footer sticky bottom-4 left-0 right-0 mx-auto w-fit bg-slate-800 text-white px-4 py-1.5 rounded-full text-xs shadow-lg flex gap-4 opacity-90 hover:opacity-100 transition-opacity z-20">
                   <span className="flex items-center gap-1.5"><LayoutTemplate size={12}/> {stats.words} words</span>
                   <span className="opacity-50">|</span>
@@ -420,7 +379,6 @@
             </div>
           )}
 
-          {/* USP: Cover Page Modal */}
           {showCoverModal && (
             <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
               <div className="bg-white rounded-xl shadow-2xl max-w-sm w-full p-6 animate-in zoom-in-95">
@@ -445,11 +403,8 @@
       );
     };
 
-    // Render the app
     const App = DocuFlow;
     ReactDOM.render(React.createElement(App), document.getElementById('root'));
-    
-    // Init Lucide icons after render
     setTimeout(() => lucide.createIcons(), 100);
   </script>
 </body>
