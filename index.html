@@ -51,7 +51,131 @@
       }, children);
     };
 
-    const DocuFlow = () => {
+    const LandingPage = ({ onLaunch }) => {
+      return (
+        <div className="min-h-screen bg-[#050505] text-slate-200 font-sans font-selection:bg-[#ccff00] font-selection:text-black overflow-x-hidden">
+          <div className="fixed inset-0 z-0 opacity-20 pointer-events-none" 
+               style={{ backgroundImage: 'linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
+          </div>
+
+          <nav className="relative z-10 flex items-center justify-between px-6 py-6 max-w-7xl mx-auto">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-[#ccff00] rounded-sm flex items-center justify-center">
+                <span className="font-bold text-black text-xl tracking-tighter">Df.</span>
+              </div>
+              <span className="font-bold text-xl tracking-tight text-white">DocuFlow</span>
+            </div>
+            <a href="https://github.com/your-repo" target="_blank" rel="noreferrer" className="text-sm font-mono text-slate-500 hover:text-[#ccff00] transition-colors">
+              v2.0.0_release
+            </a>
+          </nav>
+
+          <header className="relative z-10 px-6 pt-20 pb-32 max-w-7xl mx-auto text-center md:text-left">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-800 bg-slate-900/50 text-[#ccff00] text-xs font-mono mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ccff00] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ccff00]"></span>
+              </span>
+              LIVE SYSTEM
+            </div>
+            
+            <h1 className="text-5xl md:text-8xl font-black tracking-tighter leading-[0.9] text-white mb-8 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+              FORMATTING <br />
+              IS <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ccff00] to-emerald-500">DEAD.</span>
+            </h1>
+            
+            <p className="text-lg md:text-xl text-slate-400 max-w-2xl leading-relaxed mb-12 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-200">
+              Stop fighting with Markdown. DocuFlow turns your raw AI chat logs into 
+              <span className="text-white font-medium"> University-Grade</span> documents instantly. 
+              Local-first. Privacy-focused. zero-friction.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 animate-in fade-in slide-in-from-bottom-16 duration-1000 delay-300">
+              <button 
+                onClick={onLaunch}
+                className="group relative px-8 py-4 bg-[#ccff00] text-black font-bold text-lg rounded-sm hover:bg-[#b3e600] transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
+              >
+                Launch Studio
+                <LucideIcon name="arrow-right" className="group-hover:translate-x-1 transition-transform" size={20} />
+              </button>
+              <div className="flex items-center gap-4 px-6 py-4 text-sm font-mono text-slate-500">
+                <LucideIcon name="terminal" size={16} />
+                <span>No Signup Required</span>
+              </div>
+            </div>
+          </header>
+
+          <section className="relative z-10 px-6 py-20 bg-slate-900/50 border-y border-white/5">
+            <div className="max-w-7xl mx-auto">
+              <div className="mb-12">
+                <h2 className="text-3xl font-bold text-white mb-4">The Anti-Copy-Paste Engine</h2>
+                <p className="text-slate-400 max-w-xl">We built the tools that Google Docs forgot. Designed specifically for the AI-generation workflow.</p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="bg-[#0a0a0a] border border-white/10 p-8 rounded-sm hover:border-[#ccff00]/50 transition-colors group">
+                  <div className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center mb-6 group-hover:bg-[#ccff00] group-hover:text-black transition-colors">
+                    <LucideIcon name="calculator" size={20} />
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-2">LaTeX Math Rendering</h3>
+                  <p className="text-slate-400 text-sm">Paste raw `$$x=y$$` code. We render it as beautiful, publication-ready equations instantly.</p>
+                </div>
+
+                <div className="bg-[#0a0a0a] border border-white/10 p-8 rounded-sm hover:border-[#ccff00]/50 transition-colors group">
+                  <div className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center mb-6 group-hover:bg-[#ccff00] group-hover:text-black transition-colors">
+                    <LucideIcon name="graduation-cap" size={20} />
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-2">1-Click Cover Pages</h3>
+                  <p className="text-slate-400 text-sm">Forget formatting title pages. Generate a standard university cover page with one tap.</p>
+                </div>
+
+                <div className="bg-[#0a0a0a] border border-white/10 p-8 rounded-sm hover:border-[#ccff00]/50 transition-colors group md:row-span-2 flex flex-col justify-between">
+                  <div>
+                    <div className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center mb-6 group-hover:bg-[#ccff00] group-hover:text-black transition-colors">
+                      <LucideIcon name="wand-2" size={20} />
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">AI Structure Engine</h3>
+                    <p className="text-slate-400 text-sm mb-6">Have a wall of text? Our "Magic Mode" uses Gemini to detect headers, lists, and key terms automatically.</p>
+                  </div>
+                  <div className="bg-slate-900 rounded p-4 border border-white/5 font-mono text-xs text-slate-500">
+                    <div className="flex gap-2 mb-2">
+                      <div className="w-3 h-3 rounded-full bg-red-500/20"></div>
+                      <div className="w-3 h-3 rounded-full bg-yellow-500/20"></div>
+                      <div className="w-3 h-3 rounded-full bg-green-500/20"></div>
+                    </div>
+                    <p className="typing-effect">&gt; Processing input...</p>
+                    <p className="text-[#ccff00]">&gt; Headers detected.</p>
+                    <p className="text-[#ccff00]">&gt; Formatting complete.</p>
+                  </div>
+                </div>
+
+                <div className="bg-[#0a0a0a] border border-white/10 p-8 rounded-sm hover:border-[#ccff00]/50 transition-colors group">
+                  <div className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center mb-6 group-hover:bg-[#ccff00] group-hover:text-black transition-colors">
+                    <LucideIcon name="shield-check" size={20} />
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-2">Privacy Native</h3>
+                  <p className="text-slate-400 text-sm">Your essays never leave your browser (unless you use AI features). LocalStorage saves your work.</p>
+                </div>
+
+                <div className="bg-[#0a0a0a] border border-white/10 p-8 rounded-sm hover:border-[#ccff00]/50 transition-colors group">
+                  <div className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center mb-6 group-hover:bg-[#ccff00] group-hover:text-black transition-colors">
+                    <LucideIcon name="book-open" size={20} />
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-2">Auto-Bibliography</h3>
+                  <p className="text-slate-400 text-sm">We scan your text for links and automatically generate a reference list at the bottom.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <footer className="py-12 text-center text-slate-600 text-sm relative z-10">
+            <p>Built for the AI Generation.</p>
+          </footer>
+        </div>
+      );
+    };
+
+    const Studio = () => {
       const [mode, setMode] = useState('instant');
       const [inputText, setInputText] = useState("");
       const [formattedHtml, setFormattedHtml] = useState("");
@@ -207,11 +331,7 @@
           <h2 class="text-2xl font-bold mb-6">References</h2>
           <ul class="list-none space-y-4">`;
         links.forEach((link, index) => {
-          const url = link.href;
-          const text = link.innerText;
-          bibHtml += `<li class="pl-8 -indent-8 text-slate-700">
-            [${index + 1}] ${text}. Available at: <span class="italic underline text-blue-600">${url}</span> (Accessed: ${new Date().toLocaleDateString()}).
-          </li>`;
+          bibHtml += `<li class="pl-8 -indent-8 text-slate-700">[${index + 1}] ${link.innerText}. Available at: <span class="italic underline text-blue-600">${link.href}</span> (Accessed: ${new Date().toLocaleDateString()}).</li>`;
         });
         bibHtml += `</ul></div>`;
         previewRef.current.innerHTML += bibHtml;
@@ -267,7 +387,7 @@
         if (!inputText) return;
         setIsProcessing(true);
         try {
-          const prompt = `Format this text into a university-grade ${theme} document.
+          const prompt = `Format this text into a university-grade ${theme} document. 
           - Use standard headers (#).
           - Ensure equations are formatted with LaTeX ($$).
           - Create tables for data.
@@ -293,6 +413,16 @@
       );
       return (
         <div className="flex flex-col h-screen bg-slate-50 font-sans text-slate-900">
+          <style>{`
+            @media print {
+              @page { margin: 2cm; size: auto; }
+              nav, .sidebar, .toolbar, .mobile-tabs, .print-hide, .stats-footer { display: none !important; }
+              .main-content { background: white; padding: 0 !important; overflow: visible !important; }
+              .document-page { box-shadow: none !important; border: none !important; padding: 0 !important; margin: 0 !important; width: 100% !important; max-width: 100% !important; min-height: 0 !important; }
+              .page-break-before { page-break-before: always; }
+            }
+          `}</style>
+
           <nav className="h-14 bg-white border-b border-slate-200 flex items-center justify-between px-4 z-20 shadow-sm shrink-0">
             <div className="flex items-center gap-3">
               <div className={`p-1.5 rounded-lg shadow-sm transition-colors ${mode === 'magic' ? 'bg-indigo-600' : 'bg-slate-800'}`}>
@@ -310,6 +440,7 @@
                <button onClick={() => setShowSettings(true)} className={`flex items-center gap-2 px-3 py-1.5 text-xs font-medium rounded-full border transition-all ${!apiKey ? 'bg-amber-50 text-amber-600 border-amber-200' : 'text-slate-500 border-transparent hover:bg-slate-100'}`}><LucideIcon name="settings" size={16} />{!apiKey && <span className="hidden sm:inline">Set API Key</span>}</button>
             </div>
           </nav>
+
           <div className="flex-1 flex overflow-hidden main-content">
             <div className={`sidebar w-full md:w-1/3 border-r border-slate-200 flex flex-col bg-slate-50 ${activeTab === 'editor' ? 'block' : 'hidden md:flex'}`}>
               <div className="p-3 border-b border-slate-200 bg-white grid grid-cols-2 gap-1">
@@ -324,6 +455,7 @@
                  {mode === 'instant' ? <div className="text-center text-xs text-slate-400 font-medium py-2"><span className="flex items-center justify-center gap-1"><LucideIcon name="zap" size={12}/> Auto-converting</span></div> : <button onClick={handleAIMagic} disabled={isProcessing || !inputText} className={`w-full py-3 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md ${isProcessing ? 'bg-slate-100 text-slate-400' : 'bg-indigo-600 text-white hover:bg-indigo-700'}`}>{isProcessing ? "Formatting..." : <><LucideIcon name="sparkles" size={16} /> Format with AI</>}</button>}
               </div>
             </div>
+
             <div className={`flex-1 flex flex-col bg-slate-100 ${activeTab === 'preview' ? 'block' : 'hidden md:flex'}`}>
               <div className="toolbar h-12 bg-white border-b border-slate-200 flex items-center px-4 justify-between shadow-sm z-10">
                 <div className="flex items-center gap-1 pr-4 border-r border-slate-200 overflow-x-auto no-scrollbar">
@@ -344,6 +476,7 @@
                    <button onClick={handleCopyRichText} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-slate-900 hover:bg-slate-800 rounded-md transition-colors shadow-sm"><LucideIcon name="copy" size={14} /></button>
                 </div>
               </div>
+
               <div className="flex-1 overflow-y-auto p-6 md:p-12 cursor-text relative" onClick={() => previewRef.current?.focus()}>
                 <div className={`document-page max-w-3xl mx-auto bg-white shadow-xl rounded-sm min-h-[800px] p-12 relative group animate-in fade-in zoom-in-95 duration-300 ${themeStyles[theme].container}`}>
                   <div ref={titleRef} contentEditable suppressContentEditableWarning={true} className="text-4xl font-extrabold mb-8 pb-4 border-b border-slate-100 outline-none empty:before:content-['Untitled_Doc'] empty:before:text-slate-300 hover:border-slate-300 transition-colors">New Document</div>
@@ -357,10 +490,12 @@
               </div>
             </div>
           </div>
+
           <div className="md:hidden mobile-tabs h-14 bg-white border-t border-slate-200 flex shrink-0">
             <button onClick={() => setActiveTab('editor')} className={`flex-1 font-medium text-sm flex items-center justify-center gap-2 ${activeTab === 'editor' ? 'text-indigo-600' : 'text-slate-500'}`}><LucideIcon name="type" size={16} /> Input</button>
             <button onClick={() => setActiveTab('preview')} className={`flex-1 font-medium text-sm flex items-center justify-center gap-2 ${activeTab === 'preview' ? 'text-indigo-600' : 'text-slate-500'}`}><LucideIcon name="file-text" size={16} /> Document</button>
           </div>
+
           {showSettings && (
             <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
               <div className="bg-white rounded-xl shadow-2xl max-w-sm w-full p-6 animate-in zoom-in-95">
@@ -370,6 +505,7 @@
               </div>
             </div>
           )}
+
           {showCoverModal && (
             <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
               <div className="bg-white rounded-xl shadow-2xl max-w-sm w-full p-6 animate-in zoom-in-95">
@@ -384,6 +520,7 @@
               </div>
             </div>
           )}
+
           {notification && (
             <div className={`fixed bottom-6 right-6 px-4 py-3 rounded-lg shadow-xl flex items-center gap-3 animate-in slide-in-from-bottom-5 fade-in duration-300 z-50 ${notification.type === 'success' ? 'bg-green-700 text-white' : notification.type === 'error' ? 'bg-red-700 text-white' : 'bg-slate-800 text-white'}`}>
               {notification.type === 'success' ? <LucideIcon name="check" size={18} /> : notification.type === 'error' ? <LucideIcon name="alert-circle" size={18} /> : <LucideIcon name="sparkles" size={18} />} <span className="font-medium text-sm">{notification.msg}</span>
@@ -392,7 +529,13 @@
         </div>
       );
     };
-    const App = DocuFlow;
+
+    const DocuFlowApp = () => {
+      const [view, setView] = useState('landing');
+      return view === 'landing' ? <LandingPage onLaunch={() => setView('app')} /> : <Studio />;
+    };
+
+    const App = DocuFlowApp;
     ReactDOM.render(React.createElement(App), document.getElementById('root'));
   </script>
 </body>
